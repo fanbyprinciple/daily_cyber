@@ -13,7 +13,7 @@ while(i < 7):
         commit_file.write(str(i))
     os.system('cmd /c "git add ."')
     os.system(f'cmd /c "git commit -m \"{text} {x}\" --date=\"{i} days ago\"')
-
+    i += 1
 os.system('cmd /c "git push"')
 
 

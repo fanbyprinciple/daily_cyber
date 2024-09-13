@@ -1,0 +1,16 @@
+1.	Explain the characteristics of database approach.
+
+
+2.	Explain the typical components of a DBMS with a neat diagram.
+3.	Explain the Operation of Two-Tier Client/Server architecture for RDBMS?
+4.	List the summary of the notations for ER diagrams. Include symbols used in ER diagram and their meaning.
+5.	Design an ER Diagram for keeping track of Information about Bank Database, taking into account 4 entities.
+6.	Design an ER Diagram for maintaining Movie Database taking into account atleast 4 entities.
+7.	Define referential integrity constraint. Explain the importance of referential integrity constraint. How is this constraint implemented in SQL?
+8.	Given the schema EMP ( Fname, Lname, SSN, Bdate, Address, Sex, Salary, SuperSSN, Dno) DEP T(Dname, Dnumber, MgrSSN, MGrstartdate) DEPT-LOC (Dnumber,Dloc) PROJECT(Pname, Pnumber, Ploc,Dnum) WORKS-ON (ESSN,PNo,Hours).
+a.	List female employees from Dno=20 earning more than 50000.
+b.	List ‘CSE’ department details
+c.	Retrieve the first name, last name and salary of all employees who work in departmental number 50
+d.	Retrieve the name of the manager of each department.
+
+

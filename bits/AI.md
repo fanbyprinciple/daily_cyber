@@ -92,6 +92,8 @@ exponential time linear space
 informed search
 
 
+### coorgi classificaiton side project
 
+![](2024-09-16-18-21-37.png)
 
-
+https://colab.research.google.com/github/nateraw/huggingpics/blob/main/HuggingPics.ipynb#scrollTo=ABreTsYRoDzy

@@ -3,7 +3,7 @@ import datetime
 
 x= datetime.datetime.now()
 
-how_many_commits = 8 # commits 7 days before today
+how_many_commits = 2 # commits 7 days before today
 text = "push on"
 # commit_file = open("commit.txt", "w")
 # os.system('cmd /c "git add ."')

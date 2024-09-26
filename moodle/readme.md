@@ -25,6 +25,15 @@ and add
    ThreadStackSize 8888888
 </IfModule>
 ```
+php_zip.dll
+php_gd.dll
+
+php_ini -> max_input_vars=5000
+
+got ot moodle environment admin and change
+mariadb required version
+
+sodium to optional 
 
 ![](2024-09-24-15-08-10.png)
 

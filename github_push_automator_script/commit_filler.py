@@ -8,7 +8,8 @@ text = "push on"
 # commit_file = open("commit.txt", "w")
 # os.system('cmd /c "git add ."')
 i = 4
-while(i < i + how_many_commits):
+j = i
+while(i < j + how_many_commits):
     with open("commit_file", "w") as commit_file:
         commit_file.write(str(i))
     os.system('cmd /c "git add ."')

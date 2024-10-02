@@ -97,3 +97,79 @@ informed search
 ![](2024-09-16-18-21-37.png)
 
 https://colab.research.google.com/github/nateraw/huggingpics/blob/main/HuggingPics.ipynb#scrollTo=ABreTsYRoDzy
+
+# Notes from video
+
+https://www.youtube.com/watch?v=_CrEYrcImv0&list=PLxCzCOWd7aiHGhOHV-nwb0HR5US5GFKFI&index=8
+
+# state space search
+
+S (start, goal), Actions, Actions(S), Result(s,a), cost(s,a)
+for precision and analyse
+
+Uninformed, informed
+O(b^d)
+
+# uninformed and informed search
+
+uninformed
+Search without information
+no knowledge
+time consumeing 
+more complexity
+DFS, BFS
+
+informed search
+with information, heuristing
+knowlege
+quick complexity
+Astar, best first, heuristing DFS
+
+optimality not guarenteed
+(n-1)(s-1) nearest nighbhor, using cost
+
+# BFS
+
+FIFO
+uninformed
+Shallowest node
+complete
+optimal
+time complexity
+
+![](2024-10-04-04-56-46.png)
+
+TIme complexity
+TIme complexity O(V + E)
+O(b^D) b is btanch factor
+
+# DFS
+
+uninformed
+LIFO
+Deepest
+Non optimal
+non complete - if infinite
+Time complexity
+O(b^d)
+
+# Bidirectional Search techinique
+
+searches from starting to foal and then goal to start
+O(B^D/2)
+complete in breadth first seach
+
+# 8 puzzle problem wihtout heuristic
+
+![](2024-10-04-05-11-15.png)
+
+branching factor = 3
+
+# Heuristic function
+
+Making assumption to solve the function quickly
+
+NP problem in polynomial time
+
+factors used - 
+Eucleadean distance

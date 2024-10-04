@@ -172,4 +172,144 @@ Making assumption to solve the function quickly
 NP problem in polynomial time
 
 factors used - 
-Eucleadean distance
+Eucleadean distance - manhattan distance
+number of misplaced tiles for heuristic
+
+# 8 puzzle with heuristic
+
+misplaced tile
+
+# generate and test
+
+Generate all states till we see the actual solution
+generate one state
+is it solution
+if not go to step 1
+
+Good generators uses heuristic and are non redundant
+
+## 8 puzzle with manhattan
+
+https://www.youtube.com/watch?v=LYkbWAQWGro
+
+![nahatten distance](image.png)
+
+# Best First Search 
+
+Open, Close, priority ques
+
+loop 
+if open is empty return failurs
+node <- remove-first (OPEN) if Node is goal then retun path
+then generate all nodes
+put nodes into open
+end loop
+
+# Beam Search algorithm
+
+remove nodes not optimal
+beam =2 take best 2 remove all
+space cmoplexity
+
+# Hill climbing algorithm
+cheks locally 
+
+![](2024-10-04-05-48-11.png)
+
+loop
+generate nodes
+if nodes is goal then good
+if states are usddthen exhausted
+else generate all nodes
+new state is it better than current stae
+put nodes i open
+end loop
+
+# A star algorithm
+
+Admissible
+informed searching
+f(n) = g(n) + h(n)
+actual cost from start to n + cost from n to goal
+
+![a star](image-1.png)
+
+Time = O(V + E) O(b^D)
+
+# AO* algorithm
+
+DOes not eplore all paths if it gets a solution
+
+# knowledge represnetaion and resoning
+
+syntax semantic
+
+logic - proposition, predicate
+
+Rules
+
+semantic net - meaning graph
+
+frame - slots and fillers - object and attribute
+
+script
+
+# propositional logic
+
+atomic and comlex
+>>>
+negation
+disjunction
+aconjunction
+if then
+if and only if
+
+it should only be True or false
+
+F(X) ^ S(x,CSE) -> A(X)
+
+![propisitonal](image-2.png)
+
+# inference
+
+https://www.youtube.com/watch?v=DZXTVoSQzFo
+
+modus pnene
+implicaiton elimination
+A -> B
+b , A
+
+odus tollent
+
+A -> B
+~B
+~a
+
+elimination
+a and b
+a
+
+inroduction
+
+a 
+b
+-> a and B
+
+
+or
+
+a
+a or B
+
+negation elimination
+no (no (a)) -> a
+
+unit resolution
+
+a or b
+
+~a
+b
+
+## applynng inference statement
+

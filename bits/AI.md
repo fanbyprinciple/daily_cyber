@@ -295,7 +295,6 @@ a
 b
 -> a and B
 
-
 or
 
 a

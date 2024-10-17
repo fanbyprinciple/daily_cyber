@@ -7,3 +7,7 @@ Need inpiration.
 # 14 Oct 2024
 
 Poster making for PHD fish conservation.
+
+# 17 Oct
+
+Paper summarisation

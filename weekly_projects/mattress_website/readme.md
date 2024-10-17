@@ -32,5 +32,4 @@ https://www.youtube.com/watch?v=tS7upsfuxmo
 
 https://flexboxfroggy.com/
 
-https://play.tailwindcss.com/
-
+https://play.tailwindcss.com

@@ -5,9 +5,10 @@
 Need inpiration.
 
 # 14 Oct 2024
-
+ 
 Poster making for PHD fish conservation.
 
 # 17 Oct
 
-Paper summarisation
+Paper summarisation https://colab.research.google.com/drive/1AkdLoyHMy8LDhtiBznQpvxlnxPCPdUmW#scrollTo=6G8eUSr5tE21
+

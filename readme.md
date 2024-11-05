@@ -12,3 +12,6 @@ Poster making for PHD fish conservation.
 
 Paper summarisation https://colab.research.google.com/drive/1AkdLoyHMy8LDhtiBznQpvxlnxPCPdUmW#scrollTo=6G8eUSr5tE21
 
+# 05 Nov
+
+Nothing cyber. Recovering from fever.

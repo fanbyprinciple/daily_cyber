@@ -15,3 +15,6 @@ Paper summarisation https://colab.research.google.com/drive/1AkdLoyHMy8LDhtiBznQ
 # 05 Nov
 
 Nothing cyber. Recovering from fever.
+
+# 06 Nov
+

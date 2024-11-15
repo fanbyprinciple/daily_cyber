@@ -16,5 +16,19 @@ Paper summarisation https://colab.research.google.com/drive/1AkdLoyHMy8LDhtiBznQ
 
 Nothing cyber. Recovering from fever.
 
-# 06 Nov
+# 13 Nov
 
+Some random python code
+for somethign tictactoe
+
+# 14 Nov
+
+https://colab.research.google.com/drive/1pmm5YEXeDgAduyCK8BhOernUy1TxUfEy#scrollTo=7iH-Cl3tVfuy
+
+Trying to create a BFS A* algorithm.
+
+# 15 Nov
+
+BFS A8 Algorithm but full of bugs
+
+https://colab.research.google.com/drive/1pmm5YEXeDgAduyCK8BhOernUy1TxUfEy#scrollTo=rGFG30zJvvF2

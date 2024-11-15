@@ -32,3 +32,7 @@ Trying to create a BFS A* algorithm.
 BFS A8 Algorithm but full of bugs
 
 https://colab.research.google.com/drive/1pmm5YEXeDgAduyCK8BhOernUy1TxUfEy#scrollTo=rGFG30zJvvF2
+
+# 16 Nov
+
+BFS questions

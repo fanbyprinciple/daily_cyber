@@ -36,3 +36,7 @@ https://colab.research.google.com/drive/1pmm5YEXeDgAduyCK8BhOernUy1TxUfEy#scroll
 # 16 Nov
 
 BFS questions
+
+# 17 Nov
+
+Nothing of note

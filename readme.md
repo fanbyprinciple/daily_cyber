@@ -40,3 +40,7 @@ BFS questions
 # 17 Nov
 
 Nothing of note
+
+# 18 Nov
+
+Finally able to create the node.

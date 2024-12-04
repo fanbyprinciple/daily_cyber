@@ -20,6 +20,7 @@ def bfs_python(initial, target, graph):
 
         for neighbhor in graph[m]:
             if neighbhor not in visited:
+                
                 visited.append(neighbhor)
                 queued.append(neighbhor)
 

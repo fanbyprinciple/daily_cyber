@@ -201,7 +201,7 @@ powerplant/pressure 120 psi
 
 > SET DATA_REGISTERS 2
 
-Modbus data
+# Modbus RTU
 
 1- 255 modbus id
 
@@ -209,3 +209,82 @@ Modbus data
 
 each slaves to have a unique id
 
+MOdbus TCp - master - and slave
+
+slave is the server
+client is master as it is reuqesting the data
+
+it uses big endian,
+
+it will send to lower value to the biggr bit
+
+register value information needs to be correlate with endian of the slave
+
+MQTT always shows strings
+
+https://github.com/techbeast-org/modbus-tcp
+
+trying modbus read
+
+issue
+use pymod.client import ModbusTcpClient
+
+## OPC
+
+architecure only sends the value that changes so saving traffic
+
+It has auto discovery
+
+Made by microsoft
+
+industry used OPC UA
+
+opc ua can also be without any encryption
+
+GDS server
+
+opc.tcp://192.168.0.1:4840
+
+# CTF
+
+https://codeshare.io/c4_modpoll.
+
+1. modbus_sub, modbus_pub
+2. moxy command
+3. modbus 502
+
+>nmap -sP 192.168.1.0/24
+
+![](2024-12-05-12-31-20.png)
+
+a1 = 0
+a2 = 1 0
+a3 = 0
+a4 = 1 0
+a5 = 1
+a6 = 1
+a7 = 0
+a8 = 1
+a9 = 1
+a10 = 1
+
+n1 < n2 < n3
+
+[0101110111]
+
+flag{0101110111}
+
+flag{0000000000}
+
+flag{0101000100} 
+
+flag{0101110110}
+
+0101110110
+
+flag{WK}
+
+ 
+mosquitto_pub -h 192.168.31.200 -p 1883 -t "powerplant/on" -m "true"
+
+mosquitto_pub -h 192.168.31.200 -P 1883 -t "#" -v

@@ -48,3 +48,7 @@ Finally able to create the node.
 # 06 dec
 
 mtech prep
+
+# 09 dec
+
+making a bad attempt at React antive app

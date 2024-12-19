@@ -52,3 +52,10 @@ mtech prep
 # 09 dec
 
 making a bad attempt at React antive app
+
+# 20 Dec
+
+https://www.youtube.com/watch?v=etjkjZoG2F0
+
+training set with roboflow possible.
+

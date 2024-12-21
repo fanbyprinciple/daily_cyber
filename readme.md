@@ -59,3 +59,4 @@ https://www.youtube.com/watch?v=etjkjZoG2F0
 
 training set with roboflow possible.
 
+learnt that machine intonation is not that good. 

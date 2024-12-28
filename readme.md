@@ -59,4 +59,9 @@ https://www.youtube.com/watch?v=etjkjZoG2F0
 
 training set with roboflow possible.
 
-learnt that machine intonation is not that good. 
+learnt that machine intonation is not that good.
+
+# 28 Dec
+
+Will learn basics of react native
+is this a new start? 

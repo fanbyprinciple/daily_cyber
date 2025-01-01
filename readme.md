@@ -59,8 +59,13 @@ https://www.youtube.com/watch?v=etjkjZoG2F0
 
 training set with roboflow possible.
 
-learnt that machine intonation is not that good. 
+learnt that machine intonation is not that good.
 
-# 02 Jan
+# 28 Dec
 
-Need to make an extension for screenshot taking
+Will learn basics of react native
+is this a new start? 
+
+# 01 Jan
+
+Screenshot extension application

@@ -69,3 +69,7 @@ is this a new start?
 # 01 Jan
 
 Screenshot extension application
+
+# 13 Jan
+
+https://breachforce.net/active-directory-enumeration-1

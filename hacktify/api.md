@@ -21,4 +21,17 @@ its possible to download the componenet of an environment into postman, for exam
 
 https://zerodayhacker.com/vapi-walkthrough/
 
+jwt.io
+
+jwt_tool
+
+## API 1
+BRoken authorisation
+I d change we get the admin user
+
+## API 2
+Broken Authentication
+
+
+
 

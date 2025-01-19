@@ -70,3 +70,13 @@ impacket
 
 pwnd using crackmapexec
 the user was pwnd now we will dump all the data
+
+# researching on AD
+
+![](pentest_ad_dark_2023_02.svg)
+
+https://github.com/senderend/hackbook
+
+
+https://github.com/Tib3rius/AutoRecon
+

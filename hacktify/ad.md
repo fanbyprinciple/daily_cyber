@@ -61,6 +61,8 @@ ldapdomain dump
 all the systems would have sid amdid 
 sid will be common for all the users
 
+ldapsearch -x -b "dc=devconnected,dc=com" -H ldap://192.168.178.29
+
 bloodhound-python -u administrator -p Password@123 -ns 192.1681.195 -d iglite.local All
 
 crackmapexec smb 192.168.1.0/24 -u administrator -d iglite.local -p Password@123

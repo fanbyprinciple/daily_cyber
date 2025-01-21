@@ -77,3 +77,8 @@ https://breachforce.net/active-directory-enumeration-1
 # 21 Jan
 
 cybersecurity exercise
+
+# 22 Jan
+
+more exercise
+

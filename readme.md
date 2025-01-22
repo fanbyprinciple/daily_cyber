@@ -82,3 +82,7 @@ cybersecurity exercise
 
 more exercise
 
+# 23 Jan
+
+ran mimikatz need htb credentials
+

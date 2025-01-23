@@ -86,3 +86,9 @@ more exercise
 
 ran mimikatz need htb credentials
 
+# 24 Jan
+
+today is th eday of reconking
+
+yolo v8
+

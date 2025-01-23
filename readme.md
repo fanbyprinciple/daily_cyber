@@ -73,3 +73,7 @@ Screenshot extension application
 # 13 Jan
 
 https://breachforce.net/active-directory-enumeration-1
+
+# 21 Jan
+
+cybersecurity exercise

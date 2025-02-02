@@ -69,6 +69,8 @@ def extract_text_from_file(uploaded_file, progress_callback=None):
 
 # ... (keep previous imports and functions unchanged)
 
+# ... (keep previous imports and functions unchanged)
+
 def main():
     st.title("PQS generator for HQST")
 

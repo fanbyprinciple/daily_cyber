@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        .smiley-container {
+            font-size: 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .smiley {
+            font-size: 50px;
+            transition: transform 0.2s;
+        }
+        .smiley:hover, .selected {
+            transform: scale(1.2);
+        }
+        canvas {
+            border: 2px solid black;
+            background: white;
+            cursor: crosshair;
+            display: block;
+            margin: 10px auto;
+            border-radius: 5px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .convert-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .clear-btn {
+            background: #f44336;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .feedback-text {
+            background: #e8f5e9;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Rate Your Experience</h2>
+        <div class="smiley-container">
+            <span class="smiley" onclick="selectSmiley(this)">😢</span>
+            <span class="smiley" onclick="selectSmiley(this)">😐</span>
+            <span class="smiley" onclick="selectSmiley(this)">😊</span>
+            <span class="smiley" onclick="selectSmiley(this)">😁</span>
+        </div>
+        
+        <h2>Write Your Feedback</h2>
+        <canvas id="canvas" width="400" height="200"></canvas>
+        <div class="buttons">
+            <button class="convert-btn" onclick="recognizeText()">Convert to Text</button>
+            <button class="clear-btn" onclick="clearCanvas()">Clear</button>
+        </div>
+        <p class="feedback-text"><strong>Recognized Text:</strong> <span id="recognizedText"></span></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
+    <script>
+        function selectSmiley(element) {
+            document.querySelectorAll('.smiley').forEach(smiley => smiley.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+        
+        canvas.addEventListener("mousedown", () => drawing = true);
+        canvas.addEventListener("mouseup", () => drawing = false);
+        canvas.addEventListener("mousemove", draw);
+        
+        function draw(event) {
+            if (!drawing) return;
+            ctx.lineWidth = 3;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = "black";
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(event.offsetX, event.offsetY);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            document.getElementById("recognizedText").innerText = "";
+        }
+
+        function recognizeText() {
+            const dataURL = canvas.toDataURL("image/png");
+            Tesseract.recognize(
+                dataURL,
+                'eng',
+                { logger: m => console.log(m) }
+            ).then(({ data: { text } }) => {
+                document.getElementById("recognizedText").innerText = text;
+            });
+        }
+    </script>
+</body>
+</html>

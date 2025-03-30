@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Report System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen p-4">
+
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-5xl">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">📝 Incident Report System</h2>
+
+        <!-- Incident Form -->
+        <form id="reportForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-gray-700 font-semibold">📅 Date:</label>
+                <input type="date" id="date" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-semibold">🔢 Serial Number:</label>
+                <input type="text" id="serial" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+            </div>
+            <div class="md:col-span-2">
+                <label class="block text-gray-700 font-semibold">⚠️ Incident Info:</label>
+                <textarea id="incidentInfo" required class="mt-1 block w-full border-gray-300 rounded-md p-2"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold">🚑 Injury Classification:</label>
+                <select id="injury_classification" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                    <option value="Death">Death</option>
+                    <option value="Injuries Requiring Hospitalization">Injuries Requiring Hospitalization</option>
+                    <option value="Potential Treatment">Potential Treatment</option>
+                    <option value="Non-Grievous Injury">Non-Grievous Injury</option>
+                    <option value="No Injury">No Injury</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold">👥 Number of Casualties:</label>
+                <input type="number" id="casualties" min="0" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold">🏚️ Damage Categorization:</label>
+                <select id="damage_categorization" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                    <option value="Cat A">Cat A</option>
+                    <option value="Cat B">Cat B</option>
+                    <option value="Cat C">Cat C</option>
+                    <option value="Cat D">Cat D</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold">🔥 Nature of Incident:</label>
+                <select id="nature_of_incident" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                    <option value="Fire">Fire</option>
+                    <option value="Flooding/Water Ingress">Flooding/Water Ingress</option>
+                    <option value="Navigation Incident">Navigation Incident</option>
+                    <option value="Inadvertent Operation">Inadvertent Operation</option>
+                    <option value="Weapon/Sensor">Weapon/Sensor</option>
+                    <option value="Misc">Misc</option>
+                </select>
+            </div>
+
+            <div class="md:col-span-2 flex justify-between mt-4">
+                <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700">
+                    📄 Save & Export PDF
+                </button>
+                <button type="button" id="exportExcel" class="bg-green-600 text-white font-bold py-2 px-4 rounded-md hover:bg-green-700">
+                    📊 Export to Excel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Incident List -->
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-5xl mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">📋 Incident Reports</h2>
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Date</th>
+                    <th class="border border-gray-300 px-4 py-2">Serial</th>
+                    <th class="border border-gray-300 px-4 py-2">Incident Info</th>
+                    <th class="border border-gray-300 px-4 py-2">Casualties</th>
+                </tr>
+            </thead>
+            <tbody id="incidentList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById("reportForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = {
+                date: document.getElementById("date").value,
+                serial: document.getElementById("serial").value,
+                incidentInfo: document.getElementById("incidentInfo").value,
+                injury_classification: document.getElementById("injury_classification").value,
+                casualties: document.getElementById("casualties").value,
+                damage_categorization: document.getElementById("damage_categorization").value,
+                nature_of_incident: document.getElementById("nature_of_incident").value
+            };
+
+            // Save incident to the database
+            const response = await fetch("http://localhost:5000/report", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                alert("Incident saved successfully! Exporting to PDF...");
+                
+                // Generate and download the PDF
+                window.location.href = "http://localhost:5000/generate-pdf";
+                
+                fetchIncidents(); // Refresh the incident list
+            } else {
+                alert("Error saving incident.");
+            }
+        });
+
+        document.getElementById("exportExcel").addEventListener("click", () => {
+            window.location.href = "http://localhost:5000/export-excel";
+        });
+
+        async function fetchIncidents() {
+            const response = await fetch("http://localhost:5000/incidents");
+            const incidents = await response.json();
+
+            const tableBody = document.getElementById("incidentList");
+            tableBody.innerHTML = ""; // Clear table
+
+            incidents.forEach(incident => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="border border-gray-300 px-4 py-2">${incident.date}</td>
+                    <td class="border border-gray-300 px-4 py-2">${incident.serial}</td>
+                    <td class="border border-gray-300 px-4 py-2">${incident.incidentInfo}</td>
+                    <td class="border border-gray-300 px-4 py-2">${incident.casualties}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        fetchIncidents(); // Load incidents on page load
+    </script>
+
+</body>
+</html>

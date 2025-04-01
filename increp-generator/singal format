@@ -1,0 +1,43 @@
+let content = `
+FROM: ${formData.from}  
+TO: ${formData.to}  
+
+UNIT:  
+
+AA  
+
+OPS ${formData.priority.toUpperCase()} ${formData.security_classification.toUpperCase()}  
+
+OP AUTH  
+
+INFO:  
+- NHQ  
+- ASD/NSRY  
+- CONCERNED SCA  
+- MS  
+- INST  
+- OTC  
+- SHIPS IN COMPANY (IF APPLICABLE)  
+
+(A) TIME OF OCCURRENCE:  
+    ${formData.date}  
+
+(B) NATURE/TYPE OF ACCIDENT/INCIDENT:  
+    ${formData.nature_of_incident} (Incident Serial: ${formData.serial})  
+
+(C) INAICS CLASSIFICATION:  
+    - **Damage Categorization:** ${formData.damage_categorization}  
+    - **Injury Classification:** ${formData.injury_classification}  
+    - **Cause Classification:** ${formData.cause_classification}  
+
+(D) BRIEF DESCRIPTION INDICATING EXTENT OF DAMAGE:  
+    "${formData.incidentInfo}"  
+
+(E) NUMBER OF CASUALTIES/INJURED PERSONNEL WITH NATURE OF INJURY:  
+    ${formData.casualties}  
+
+(F) ANY OTHER RELEVANT INFORMATION:  
+    "${formData.other_info}"  
+`;
+
+console.log(content);

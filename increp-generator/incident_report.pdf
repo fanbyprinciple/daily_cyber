@@ -10,7 +10,7 @@
 endobj
 4 0 obj
 <<
-/Length 1222
+/Length 1400
 >>
 stream
 0.5670000000000001 w
@@ -28,31 +28,34 @@ BT
 0 g
 56.6929133858267775 728.5041732283464171 Td
 () Tj
-T* (Incident Report - Official Debrief) Tj
+T* (        INCIDENT REPORT - OFFICIAL DEBRIEF) Tj
 T* () Tj
-T* (Date of Incident: 2025-04-03  ) Tj
-T* (Incident Serial Number: INC0001  ) Tj
+T* (        FROM: SHARDA                            OPS IMMEDIATE  ) Tj
+T* (        TO: INWT                                CONFIDENTIAL  ) Tj
 T* () Tj
-T* (Nature of Incident: Fire  ) Tj
+T* (        -------------------------------------------------------------------------------------------) Tj
 T* () Tj
-T* (Summary:  ) Tj
-T* (On 2025-04-03, an incident occurred involving Fire. The event has been assigned the) Tj
-T* (serial number INC0001. The nature of the incident involved the following details:  ) Tj
+T* (        DATE OF INCIDENT: 2025-04-02  ) Tj
+T* (        INCIDENT SERIAL NUMBER: INC0001  ) Tj
 T* () Tj
-T* ("jj"  ) Tj
+T* (        --------------------------------------------------------------------------------------------) Tj
 T* () Tj
-T* (Casualties & Injuries:  ) Tj
-T* (The incident resulted in 1 casualties. The injury classification for this incident has been) Tj
-T* (recorded as: "Death".  ) Tj
+T* (        \(A\) NATURE OF INCIDENT: Fire  ) Tj
 T* () Tj
-T* (Damage Assessment:  ) Tj
-T* (The damage sustained has been categorized under damage classification: "Cat A".  ) Tj
+T* (        \(B\) SUMMARY:  MINOR FIRE IN LAUNDRY ) Tj
 T* () Tj
-T* (Conclusion & Further Action:  ) Tj
-T* (This report is generated for documentation and further analysis. Any necessary follow-up) Tj
-T* (actions will be coordinated in accordance with standard operating procedures \(SOPs\) and) Tj
-T* (relevant guidelines.) Tj
+T* (        \(C\) REPORTED  0 CASUALITIES WITH INJURY CLASSIFICATION BEING No) Tj
+T* (Injury.) Tj
+T* (         ) Tj
+T* (        \(D\) DAMAGE ASSESSMENT:  THE DAMAGE IS CATEGORIZED INTO Cat C.) Tj
 T* () Tj
+T* (        \(E\) CAUSE CLASSIFICATION:  THE CAUSE IDENTIFIED IS Operational Hazard.) Tj
+T* () Tj
+T* (        \(F\) ADDITIONAL INFORMATION:  "INVESTIGATION IN PROGRESS"  ) Tj
+T* () Tj
+T* (        \(G\) THIS REPORT IS GENERATED FOR DOCUMENTATION AND FURTHER) Tj
+T* (ACTION.) Tj
+T* (        ) Tj
 ET
 endstream
 endobj
@@ -226,7 +229,7 @@ endobj
 19 0 obj
 <<
 /Producer (jsPDF 3.0.1)
-/CreationDate (D:20250402102843+05'30')
+/CreationDate (D:20250402141122+05'30')
 >>
 endobj
 20 0 obj
@@ -240,33 +243,33 @@ endobj
 xref
 0 21
 0000000000 65535 f 
-0000001426 00000 n 
-0000003243 00000 n 
+0000001604 00000 n 
+0000003421 00000 n 
 0000000015 00000 n 
 0000000152 00000 n 
-0000001483 00000 n 
-0000001608 00000 n 
-0000001738 00000 n 
-0000001871 00000 n 
-0000002008 00000 n 
-0000002131 00000 n 
-0000002260 00000 n 
-0000002392 00000 n 
-0000002528 00000 n 
-0000002656 00000 n 
-0000002783 00000 n 
-0000002912 00000 n 
-0000003045 00000 n 
-0000003147 00000 n 
-0000003491 00000 n 
-0000003577 00000 n 
+0000001661 00000 n 
+0000001786 00000 n 
+0000001916 00000 n 
+0000002049 00000 n 
+0000002186 00000 n 
+0000002309 00000 n 
+0000002438 00000 n 
+0000002570 00000 n 
+0000002706 00000 n 
+0000002834 00000 n 
+0000002961 00000 n 
+0000003090 00000 n 
+0000003223 00000 n 
+0000003325 00000 n 
+0000003669 00000 n 
+0000003755 00000 n 
 trailer
 <<
 /Size 21
 /Root 20 0 R
 /Info 19 0 R
-/ID [ <B969D76F9B38F58A9E4CEC08E8E093B8> <B969D76F9B38F58A9E4CEC08E8E093B8> ]
+/ID [ <94668ABB5A22082D2C1F43F2A53D6C4C> <94668ABB5A22082D2C1F43F2A53D6C4C> ]
 >>
 startxref
-3681
+3859
 %%EOF

@@ -103,37 +103,36 @@ app.get("/generate-pdf", (req, res) => {
 
         doc.setFont("helvetica", "normal");
         doc.setFontSize(12);
-        const generateIncidentReport = (incident) => {
-            return `
-                INCIDENT REPORT - OFFICIAL DEBRIEF
-        
-                FROM: ${incident.from_field}                            ${incident.priority}  
-                TO:   ${incident.to_field}                                  ${incident.security_classification}  
-        
-                -------------------------------------------------------------------------------------------
-        
-                DATE OF INCIDENT: ${incident.date}  
-                INCIDENT SERIAL NUMBER: ${incident.serial}  
-        
-                --------------------------------------------------------------------------------------------
-        
-                (A) NATURE OF INCIDENT: ${incident.nature_of_incident.toUpperCase()}
-        
-                (B) SUMMARY:  ${incident.incidentInfo.toUpperCase()} 
-        
-                (C) REPORTED  ${incident.casualties.toUpperCase()} CASUALTIES. 
-                    WITH INJURY CLASSIFICATION BEING ${incident.injury_classification.toUpperCase()}.
-                 
-                (D) DAMAGE ASSESSMENT:  THE DAMAGE IS CATEGORIZED INTO ${incident.damage_categorization.toUpperCase()}.
-        
-                (E) CAUSE CLASSIFICATION:  THE CAUSE IDENTIFIED IS ${incident.cause_classification.toUpperCase()}.
-        
-                (F) ADDITIONAL INFORMATION:  "${incident.other_info.toUpperCase()}"  
-        
-                (G) THIS REPORT IS GENERATED FOR DOCUMENTATION AND FURTHER ACTION.
-            `;
-        };
-        let content = generateIncidentReport(incident); 
+
+        let content = `
+        INCIDENT REPORT - OFFICIAL DEBRIEF
+
+        FROM: ${incident.from_field}                            ${incident.priority}  
+        TO:   ${incident.to_field}                              ${incident.security_classification}  
+
+        -------------------------------------------------------------------------------------------
+
+        DATE OF INCIDENT: ${incident.date}  
+        INCIDENT SERIAL NUMBER: ${incident.serial}  
+
+        --------------------------------------------------------------------------------------------
+
+        (A) NATURE OF INCIDENT: ${incident.nature_of_incident.toUpperCase()}
+
+        (B) SUMMARY:  ${incident.incidentInfo.toUpperCase()} 
+
+        (C) REPORTED  ${incident.casualties.toUpperCase()} CASUALITIES. 
+            WITH INJURY CLASSIFICATION BEING ${incident.injury_classification.toUpperCase()}.
+         
+        (D) DAMAGE ASSESSMENT:  THE DAMAGE IS CATEGORIZED INTO ${incident.damage_categorization.toUpperCase()}.
+
+        (E) CAUSE CLASSIFICATION:  THE CAUSE IDENTIFIED IS ${incident.cause_classification.toUpperCase()}.
+
+        (F) ADDITIONAL INFORMATION:  "${incident.other_info.toUpperCase()}  
+
+        (G) THIS REPORT IS GENERATED FOR DOCUMENTATION AND FURTHER ACTION.
+        `;
+
         doc.text(content, 20, 40, { maxWidth: 170 });
 
         const pdfPath = path.join(__dirname, "incident_report.pdf");

@@ -1,183 +1,166 @@
 const express = require("express");
-const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
+const sqlite3 = require("sqlite3").verbose();
 const bodyParser = require("body-parser");
-const fs = require("fs");
 const ExcelJS = require("exceljs");
-const PDFDocument = require("pdfkit");
+const fs = require("fs");
+const { jsPDF } = require("jspdf");
+const path = require("path");
 
 const app = express();
 const PORT = 5000;
 
-// At the top of your server file, after requiring express
-app.use(cors({
-    origin: 'http://localhost', // Or your specific frontend URL
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Accept']
-}));
+// Enable CORS for frontend running on http://127.0.0.1:5500
+app.use(cors({ origin: "http://127.0.0.1:5500" }));
 app.use(bodyParser.json());
 
-// ✅ Initialize SQLite Database
-const db = new sqlite3.Database("./incidents.db", sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+// Connect to SQLite database
+const db = new sqlite3.Database("./incidents.db", (err) => {
     if (err) {
-        console.error("Error connecting to SQLite database:", err.message);
+        console.error("Error opening database:", err.message);
     } else {
         console.log("Connected to SQLite database.");
+        db.run(
+            `CREATE TABLE IF NOT EXISTS incidents (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                date TEXT,
+                serial TEXT,
+                incidentInfo TEXT,
+                injury_classification TEXT,
+                casualties INTEGER,
+                damage_categorization TEXT,
+                nature_of_incident TEXT
+            )`
+        );
     }
 });
 
-// ✅ Create incidents table if not exists
-db.run(`
-    CREATE TABLE IF NOT EXISTS incidents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT,
-        serial TEXT,
-        incidentInfo TEXT,
-        injury_classification TEXT,
-        casualties INTEGER,
-        damage_categorization TEXT,
-        nature_of_incident TEXT,
-        department TEXT,
-        cause_classification TEXT,
-        reported_incident TEXT,
-        previous_incident_reference TEXT,
-        incident_assistance TEXT
-    )
-`);
-
-// ✅ API to store incident report
+// API to submit a new incident report
 app.post("/report", (req, res) => {
     const {
-        date, serial, incidentInfo, injury_classification,
-        casualties, damage_categorization, nature_of_incident,
-        department, cause_classification, reported_incident,
-        previous_incident_reference, incident_assistance
+        date,
+        serial,
+        incidentInfo,
+        injury_classification,
+        casualties,
+        damage_categorization,
+        nature_of_incident,
     } = req.body;
 
-    const query = `
-        INSERT INTO incidents 
-        (date, serial, incidentInfo, injury_classification, casualties, damage_categorization, nature_of_incident, department, cause_classification, reported_incident, previous_incident_reference, incident_assistance) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    const sql = `INSERT INTO incidents 
+                 (date, serial, incidentInfo, injury_classification, casualties, damage_categorization, nature_of_incident) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-    db.run(query, [date, serial, incidentInfo, injury_classification, casualties, damage_categorization, nature_of_incident, department, cause_classification, reported_incident, previous_incident_reference, incident_assistance], function (err) {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json({ message: "Incident reported successfully!", id: this.lastID });
+    db.run(
+        sql,
+        [date, serial, incidentInfo, injury_classification, casualties, damage_categorization, nature_of_incident],
+        function (err) {
+            if (err) {
+                console.error("Error inserting data:", err.message);
+                return res.status(500).send("Error saving report.");
+            }
+            res.send({ message: "Report saved successfully!", id: this.lastID });
         }
-    });
+    );
 });
 
-// ✅ API to generate PDF of all incidents
-app.get("/generate-pdf", (req, res) => {
+// API to fetch all incident reports
+app.get("/incidents", (req, res) => {
     db.all("SELECT * FROM incidents", [], (err, rows) => {
         if (err) {
-            return res.status(500).json({ error: err.message });
+            console.error("Error fetching incidents:", err.message);
+            res.status(500).send("Error retrieving reports.");
+        } else {
+            res.json(rows);
         }
-
-        const doc = new PDFDocument();
-        const filePath = "./incident_report.pdf";
-
-        // Create reports directory if it doesn't exist
-        if (!fs.existsSync('./reports')) {
-            fs.mkdirSync('./reports');
-        }
-
-        doc.pipe(fs.createWriteStream(filePath));
-
-        doc.fontSize(18).text("Incident Report", { align: "center" });
-        doc.moveDown();
-
-        rows.forEach((incident, index) => {
-            doc.fontSize(12).text(`Incident ${index + 1}`, { underline: true });
-            doc.text(`Date: ${incident.date}`);
-            doc.text(`Serial: ${incident.serial}`);
-            doc.text(`Info: ${incident.incidentInfo}`);
-            doc.text(`Injury Classification: ${incident.injury_classification}`);
-            doc.text(`Casualties: ${incident.casualties}`);
-            doc.text(`Damage Categorization: ${incident.damage_categorization}`);
-            doc.text(`Nature of Incident: ${incident.nature_of_incident}`);
-            doc.text(`Department: ${incident.department}`);
-            doc.text(`Cause Classification: ${incident.cause_classification}`);
-            doc.text(`Reported Incident: ${incident.reported_incident}`);
-            doc.text(`Previous Incident Reference: ${incident.previous_incident_reference}`);
-            doc.text(`Incident Assistance: ${incident.incident_assistance}`);
-            doc.moveDown();
-        });
-
-        doc.end();
-
-        doc.on("finish", () => {
-            res.download(filePath, 'incident_report.pdf', (err) => {
-                // Delete the file after sending
-                if (err) {
-                    console.error('Error downloading file:', err);
-                }
-                fs.unlink(filePath, (unlinkErr) => {
-                    if (unlinkErr) console.error('Error deleting file:', unlinkErr);
-                });
-            });
-        });
     });
 });
 
-app.get("/export-excel", async (req, res) => {
-    db.all("SELECT * FROM incidents", [], async (err, rows) => {
+// API to generate a PDF and open it in a browser
+app.get("/generate-pdf", (req, res) => {
+    db.get("SELECT * FROM incidents ORDER BY id DESC LIMIT 1", [], (err, incident) => {
+        if (err || !incident) {
+            console.error("Error fetching the latest incident:", err ? err.message : "No incidents found.");
+            return res.status(500).send("No incident reports found.");
+        }
+
+        const doc = new jsPDF();
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Incident Report", 105, 20, null, null, "center");
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        
+        let content = `
+Incident Report - Official Debrief
+
+Date of Incident: ${incident.date}  
+Incident Serial Number: ${incident.serial}  
+
+Nature of Incident: ${incident.nature_of_incident}  
+
+Summary:  
+On ${incident.date}, an incident occurred involving ${incident.nature_of_incident}. The event has been assigned the serial number ${incident.serial}. The nature of the incident involved the following details:  
+
+"${incident.incidentInfo}"  
+
+Casualties & Injuries:  
+The incident resulted in ${incident.casualties} casualties. The injury classification for this incident has been recorded as: "${incident.injury_classification}".  
+
+Damage Assessment:  
+The damage sustained has been categorized under damage classification: "${incident.damage_categorization}".  
+
+Conclusion & Further Action:  
+This report is generated for documentation and further analysis. Any necessary follow-up actions will be coordinated in accordance with standard operating procedures (SOPs) and relevant guidelines.
+`;
+        doc.text(content, 20, 40, { maxWidth: 170 });
+
+        const pdfPath = path.join(__dirname, "incident_report.pdf");
+        doc.save(pdfPath);
+
+        // Send the file to be viewed in the browser
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", "inline; filename=incident_report.pdf");
+        fs.createReadStream(pdfPath).pipe(res);
+    });
+});
+
+// API to export incidents as an Excel file
+app.get("/export-excel", (req, res) => {
+    db.all("SELECT * FROM incidents", [], async (err, incidents) => {
         if (err) {
-            return res.status(500).json({ error: err.message });
+            console.error("Error fetching incidents:", err.message);
+            return res.status(500).send("Error generating Excel.");
         }
 
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet("Incidents");
+        const worksheet = workbook.addWorksheet("Incident Reports");
 
-        // Add header row
-        worksheet.addRow([
-            "ID", "Date", "Serial", "Incident Info", "Injury Classification", "Casualties",
-            "Damage Categorization", "Nature of Incident", "Department", "Cause Classification",
-            "Reported Incident", "Previous Incident Reference", "Incident Assistance"
-        ]);
+        worksheet.columns = [
+            { header: "Date", key: "date", width: 15 },
+            { header: "Serial", key: "serial", width: 15 },
+            { header: "Incident Info", key: "incidentInfo", width: 30 },
+            { header: "Injury Classification", key: "injury_classification", width: 20 },
+            { header: "Casualties", key: "casualties", width: 10 },
+            { header: "Damage Categorization", key: "damage_categorization", width: 15 },
+            { header: "Nature of Incident", key: "nature_of_incident", width: 20 },
+        ];
 
-        // Add data rows
-        rows.forEach(row => {
-            worksheet.addRow([
-                row.id, row.date, row.serial, row.incidentInfo, row.injury_classification,
-                row.casualties, row.damage_categorization, row.nature_of_incident,
-                row.department, row.cause_classification, row.reported_incident,
-                row.previous_incident_reference, row.incident_assistance
-            ]);
+        incidents.forEach((incident) => {
+            worksheet.addRow(incident);
         });
 
-        // Write Excel file
-        const filePath = "./incident_reports.xlsx";
-        await workbook.xlsx.writeFile(filePath);
-        
-        res.download(filePath, 'incident_reports.xlsx', (err) => {
-            // Delete the file after sending
-            if (err) {
-                console.error('Error downloading file:', err);
-            }
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) console.error('Error deleting file:', unlinkErr);
-            });
-        });
+        const excelPath = path.join(__dirname, "incident_reports.xlsx");
+        await workbook.xlsx.writeFile(excelPath);
+
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        res.setHeader("Content-Disposition", "attachment; filename=incident_reports.xlsx");
+        fs.createReadStream(excelPath).pipe(res);
     });
 });
 
-// ✅ Start the server
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
-
-// Add this endpoint to your server.js
-app.get("/incidents", (req, res) => {
-    console.log("Fetching all incidents..."); // Debug log
-    db.all("SELECT * FROM incidents ORDER BY date DESC", [], (err, rows) => {
-        if (err) {
-            console.error("Database error:", err.message); // Debug log
-            return res.status(500).json({ error: err.message });
-        }
-        console.log(`Found ${rows.length} incidents`); // Debug log
-        res.json(rows);
-    });
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

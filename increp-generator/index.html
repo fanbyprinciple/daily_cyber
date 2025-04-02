@@ -4,31 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incident Report System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./tailwaind_css.js"></script>
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-4">
 
     <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-5xl">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">📝 Incident Report System</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">📝 Incident Report</h2>
 
         <!-- Incident Form -->
         <form id="reportForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Date -->
             <div>
                 <label class="block text-gray-700 font-semibold">📅 Date:</label>
-                <input type="date" id="date" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                <input type="date" id="date" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2">
             </div>
+            
+            <!-- Serial Number -->
             <div>
                 <label class="block text-gray-700 font-semibold">🔢 Serial Number:</label>
-                <input type="text" id="serial" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                <input type="text" id="serial" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2" placeholder="INC-2023-001">
             </div>
+            
+            <!-- Incident Info -->
             <div class="md:col-span-2">
                 <label class="block text-gray-700 font-semibold">⚠️ Incident Info:</label>
-                <textarea id="incidentInfo" required class="mt-1 block w-full border-gray-300 rounded-md p-2"></textarea>
+                <textarea id="incidentInfo" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2"
+                          placeholder="Describe the incident details here..."></textarea>
             </div>
-
+            
+            <!-- Injury Classification -->
             <div>
                 <label class="block text-gray-700 font-semibold">🚑 Injury Classification:</label>
-                <select id="injury_classification" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                <select id="injury_classification" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2">
+                    <option value="" selected disabled>Select classification</option>
                     <option value="Death">Death</option>
                     <option value="Injuries Requiring Hospitalization">Injuries Requiring Hospitalization</option>
                     <option value="Potential Treatment">Potential Treatment</option>
@@ -36,10 +44,11 @@
                     <option value="No Injury">No Injury</option>
                 </select>
             </div>
-
+            
+            <!-- Casualties -->
             <div>
                 <label class="block text-gray-700 font-semibold">👥 Number of Casualties:</label>
-                <input type="number" id="casualties" min="0" required class="mt-1 block w-full border-gray-300 rounded-md p-2">
+                <input type="number" id="casualties" min="0" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2">
             </div>
 
             <div>
@@ -93,58 +102,72 @@
 
     <script>
         document.getElementById("reportForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            const formData = {
-                date: document.getElementById("date").value,
-                serial: document.getElementById("serial").value,
-                incidentInfo: document.getElementById("incidentInfo").value,
-                injury_classification: document.getElementById("injury_classification").value,
-                casualties: document.getElementById("casualties").value,
-                damage_categorization: document.getElementById("damage_categorization").value,
-                nature_of_incident: document.getElementById("nature_of_incident").value
-            };
+    const formData = {
+        date: document.getElementById("date").value,
+        serial: document.getElementById("serial").value,
+        incidentInfo: document.getElementById("incidentInfo").value,
+        injury_classification: document.getElementById("injury_classification").value,
+        casualties: document.getElementById("casualties").value,
+        damage_categorization: document.getElementById("damage_categorization").value,
+        nature_of_incident: document.getElementById("nature_of_incident").value
+    };
 
-            // Save incident to the database
-            const response = await fetch("http://localhost:5000/report", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                alert("Incident saved successfully! Exporting to PDF...");
-                
-                // Generate and download the PDF
-                window.location.href = "http://localhost:5000/generate-pdf";
-                
-                fetchIncidents(); // Refresh the incident list
-            } else {
-                alert("Error saving incident.");
-            }
+    try {
+        // Save incident to the database
+        const response = await fetch("http://localhost:5000/report", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
         });
+
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`Server error: ${error}`);
+        }
+
+        alert("Incident saved successfully! Opening PDF...");
+
+        // Generate and open the PDF in a new tab
+        const pdfUrl = "http://localhost:5000/generate-pdf";
+        window.open(pdfUrl, "_blank"); // Open PDF in a new tab
+
+        await fetchIncidents(); // Refresh the incident list
+    } catch (error) {
+        console.error("Error:", error);
+        alert(`Operation failed: ${error.message}\n\nPlease ensure:
+1. The server is running (node server.js)
+2. The server is accessible at http://localhost:5000`);
+    }
+});
 
         document.getElementById("exportExcel").addEventListener("click", () => {
             window.location.href = "http://localhost:5000/export-excel";
         });
 
         async function fetchIncidents() {
-            const response = await fetch("http://localhost:5000/incidents");
-            const incidents = await response.json();
+            try {
+                const response = await fetch("http://localhost:5000/incidents");
+                if (!response.ok) throw new Error('Failed to fetch incidents');
 
-            const tableBody = document.getElementById("incidentList");
-            tableBody.innerHTML = ""; // Clear table
+                const incidents = await response.json();
+                const tableBody = document.getElementById("incidentList");
+                tableBody.innerHTML = ""; 
 
-            incidents.forEach(incident => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td class="border border-gray-300 px-4 py-2">${incident.date}</td>
-                    <td class="border border-gray-300 px-4 py-2">${incident.serial}</td>
-                    <td class="border border-gray-300 px-4 py-2">${incident.incidentInfo}</td>
-                    <td class="border border-gray-300 px-4 py-2">${incident.casualties}</td>
-                `;
-                tableBody.appendChild(row);
-            });
+                incidents.forEach(incident => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td class="border border-gray-300 px-4 py-2">${incident.date}</td>
+                        <td class="border border-gray-300 px-4 py-2">${incident.serial}</td>
+                        <td class="border border-gray-300 px-4 py-2">${incident.incidentInfo}</td>
+                        <td class="border border-gray-300 px-4 py-2">${incident.casualties}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
         }
 
         fetchIncidents(); // Load incidents on page load

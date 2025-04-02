@@ -13,3 +13,6 @@ debug
 2. create login functionality, where each user can add comments of their own,
 it should have a route 
 3. look at opensource ticketing engines
+
+
+node server.js

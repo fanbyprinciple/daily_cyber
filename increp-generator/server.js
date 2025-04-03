@@ -117,18 +117,18 @@ app.get("/generate-pdf", (req, res) => {
         
                 --------------------------------------------------------------------------------------------
         
-                (A) NATURE OF INCIDENT: ${incident.nature_of_incident.toUpperCase()}
+                (A) ${incident.nature_of_incident.toUpperCase()}
         
-                (B) SUMMARY:  ${incident.incidentInfo.toUpperCase()} 
+                (B) ${incident.incidentInfo.toUpperCase()} 
         
                 (C) REPORTED  ${incident.casualties.toUpperCase()} CASUALTIES. 
                     WITH INJURY CLASSIFICATION BEING ${incident.injury_classification.toUpperCase()}.
                  
-                (D) DAMAGE ASSESSMENT:  THE DAMAGE IS CATEGORIZED INTO ${incident.damage_categorization.toUpperCase()}.
+                (D) THE DAMAGE IS CATEGORIZED INTO ${incident.damage_categorization.toUpperCase()}.
         
-                (E) CAUSE CLASSIFICATION:  THE CAUSE IDENTIFIED IS ${incident.cause_classification.toUpperCase()}.
+                (E) THE CAUSE IS IDENTIFIED AS ${incident.cause_classification.toUpperCase()}.
         
-                (F) ADDITIONAL INFORMATION:  "${incident.other_info.toUpperCase()}"  
+                (F) "${incident.other_info.toUpperCase()}"  
         
                 (G) THIS REPORT IS GENERATED FOR DOCUMENTATION AND FURTHER ACTION.
             `;

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanskrit Name Generator (p5.js)</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #nameDisplay {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        #meaningDisplay {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1em;
+            background: linear-gradient(to right, #d35400, #e67e22);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sanskrit Name Generator</h1>
+    <div id="nameDisplay"></div>
+    <div id="meaningDisplay"></div>
+    <button id="generateButton">Generate Name</button>
+    <button id="blendButton">Blend Name</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+<script>
+    let names;
+  const syllables = ['a', 'am', 'i', 'im', 'u', 'um', 'e', 'ai', 'o', 'au', 'ka', 'kha', 'ga', 'gha', 'ca', 'cha', 'ja', 'jha', 'ta', 'tha', 'da', 'dha', 'pa', 'pha', 'ba', 'bha', 'ma', 'ya', 'ra', 'la', 'va', 'sa', 'ha', 'tra', 'jna'];
+    const suffixes = ['an', 'ika', 'vi', 'ara', 'ya', 'shi', 'tra', 'vati', 'mati'];
+
+
+    function preload() {
+        loadJSON('https://raw.githubusercontent.com/fanbyprinciple/daily_cyber/refs/heads/main/babynames/sanskrit_female.json', (data) => {
+            names = data;
+        });
+    }
+
+    function setup() {
+        noCanvas();
+        document.getElementById('generateButton').addEventListener('click', generateName);
+        document.getElementById('blendButton').addEventListener('click', blendName);
+      
+      const syllables = ['a', 'am', 'i', 'im', 'u', 'um', 'e', 'ai', 'o', 'au', 'ka', 'kha', 'ga', 'gha', 'ca', 'cha', 'ja', 'jha', 'ta', 'tha', 'da', 'dha', 'pa', 'pha', 'ba', 'bha', 'ma', 'ya', 'ra', 'la', 'va', 'sa', 'ha', 'tra', 'jna'];
+        const suffixes = ['an', 'ika', 'vi', 'ara', 'ya', 'shi', 'tra', 'vati', 'mati'];
+    }
+
+    function generateName() {
+        if (names) {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            document.getElementById('nameDisplay').textContent = randomName.name;
+            document.getElementById('meaningDisplay').textContent = randomName.meaning;
+        }
+    }
+
+function blendName() {
+    if (names) {
+        const name1 = names[Math.floor(Math.random() * names.length)].name;
+        const name2 = names[Math.floor(Math.random() * names.length)].name;
+
+        
+
+        const blendedName = getRandomSyllable() + getRandomSyllable() + getRandomSuffix();
+
+        document.getElementById('nameDisplay').textContent = blendedName;
+        document.getElementById('meaningDisplay').textContent = "Blended name";
+    }
+}
+
+function getRandomSyllable() {
+    return syllables[Math.floor(Math.random() * syllables.length)];
+}
+
+function getRandomSuffix() {
+    return suffixes[Math.floor(Math.random() * suffixes.length)];
+}
+</script>
+
+</body>
+</html>

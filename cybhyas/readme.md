@@ -16,6 +16,46 @@ self extracting RAR and self execution
 
 Try and utilise the 7zip epxloit
 
+# Day 2
+
+https://nvd.nist.gov/vuln/detail/cve-2023-38573
+
+HTML smuggling
+
+Phony signature deception
+
+# Harpreet Singh Red team
+
+Red team lead at delloitte
+
+Trusted domain in th eAWS and azure
+
+LOLCBs 
+
+IDS / IPS vs NDR
+
+BYOVD, kernal level interation
+
+Exploitation of Edge Devices
+
+DNS over HTTPS
+
+Phishing attack
+
+fake signature attacks
+
+# DLL hijacking 
+
+Depends.exe
+
+# Cloud computing
+
+AADinternals can enumerate informaton about a variety of cloud servies
+
+
+
+
+
 
 
 

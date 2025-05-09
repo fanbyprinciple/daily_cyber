@@ -9,8 +9,8 @@ const WORD_COUNT_THRESHOLDS = {
 
 const COLORS = {
     GREEN: 'rgba(200, 255, 200, 0.4)', // Light green with some transparency
-    YELLOW: 'rgba(255, 240, 200, 0.4)', // Light yellow with some transparency
-    RED: 'rgba(255, 200, 200, 0.4)'     // Light red with some transparency
+    YELLOW: 'rgba(248, 248, 24, 0.4)', // Light yellow with some transparency
+    RED: 'rgba(233, 54, 54, 0.4)'     // Light red with some transparency
 };
 
 // --- Selectors ---
@@ -91,6 +91,7 @@ function colorCodeEmailRow(emailRowElement) {
         }
 
         if (color) {
+            console.log(`Gmail Colorizer: Applying color ${color} to email row with word count ${wordCount}:`, emailRowElement);
             emailRowElement.style.backgroundColor = color;
             emailRowElement.dataset.colorCoded = 'true'; // Mark as processed to avoid re-coloring
         }

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Emoji Alphabet - Iddu</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #E979AE;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<script>
+let currentLetter = '';
+let currentWord = '';
+let currentEmoji = '';
+let showPrompt = true;
+let showLoveMessage = false;
+
+let currentScale = 0;
+let targetScale = 1;
+let scaleSpeed = 0.1;
+
+let mainFont = 'Fredoka One';
+let subFont = 'Bubblegum Sans';
+
+const letterData = {
+  'A': { words: ['Apple', 'Ant', 'Airplane'], emojis: ['🍎', '🐜', '✈️'] },
+  'B': { words: ['Ball', 'Banana', 'Bear'], emojis: ['⚽', '🍌', '🐻'] },
+  'C': { words: ['Cat', 'Car', 'Cake'], emojis: ['🐱', '🚗', '🎂'] },
+  'D': { words: ['Dog', 'Duck', 'Dinosaur'], emojis: ['🐶', '🦆', '🦖'] },
+  'E': { words: ['Elephant', 'Eagle', 'Egg'], emojis: ['🐘', '🦅', '🥚'] },
+  'F': { words: ['Fish', 'Frog', 'Flower'], emojis: ['🐟', '🐸', '🌸'] },
+  'G': { words: ['Giraffe', 'Grapes', 'Goat'], emojis: ['🦒', '🍇', '🐐'] },
+  'H': { words: ['Hat', 'Horse', 'House'], emojis: ['🎩', '🐴', '🏠'] },
+  'I': { words: ['Ice', 'Igloo', 'Insect'], emojis: ['🧊', '⛺', '🐞'] },
+  'J': { words: ['Juice', 'Jelly', 'Jaguar'], emojis: ['🧃', '🍇', '🐆'] },
+  'K': { words: ['Kite', 'Koala', 'Key'], emojis: ['🪁', '🐨', '🔑'] },
+  'L': { words: ['Lion', 'Leaf', 'Lemon'], emojis: ['🦁', '🍃', '🍋'] },
+  'M': { words: ['Moon', 'Monkey', 'Milk'], emojis: ['🌙', '🐒', '🥛'] },
+  'N': { words: ['Nest', 'Noodles', 'Nose'], emojis: ['🪺', '🍜', '👃'] },
+  'O': { words: ['Octopus', 'Orange', 'Owl'], emojis: ['🐙', '🍊', '🦉'] },
+  'P': { words: ['Pig', 'Pencil', 'Pizza'], emojis: ['🐷', '✏️', '🍕'] },
+  'Q': { words: ['Queen', 'Quail', 'Question'], emojis: ['👑', '🦃', '❓'] },
+  'R': { words: ['Rabbit', 'Rainbow', 'Rocket'], emojis: ['🐰', '🌈', '🚀'] },
+  'S': { words: ['Sun', 'Snake', 'Star'], emojis: ['☀️', '🐍', '⭐'] },
+  'T': { words: ['Tiger', 'Train', 'Tree'], emojis: ['🐯', '🚆', '🌳'] },
+  'U': { words: ['Umbrella', 'Unicorn', 'Urchin'], emojis: ['☂️', '🦄', '🦔'] },
+  'V': { words: ['Violin', 'Vase', 'Volcano'], emojis: ['🎻', '🏺', '🌋'] },
+  'W': { words: ['Whale', 'Watermelon', 'Watch'], emojis: ['🐋', '🍉', '⌚'] },
+  'X': { words: ['Xylophone'], emojis: ['🎼'] },
+  'Y': { words: ['Yogurt', 'Yak', 'Yacht'], emojis: ['🥣', '🐃', '🛥️'] },
+  'Z': { words: ['Zebra', 'Zoo', 'Zipper'], emojis: ['🦓', '🦁', '🧥'] }
+};
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  textAlign(CENTER, CENTER);
+  noStroke();
+}
+
+function draw() {
+  background('#E979AE');
+
+  let mainLetterSize = min(width, height) * 0.45;
+  let wordSize = min(width, height) * 0.09;
+  let emojiSize = min(width, height) * 0.25;
+  let promptSize = min(width, height) * 0.07;
+
+  if (showPrompt) {
+    fill(255);
+    textFont(subFont);
+    textSize(promptSize);
+    text("Press any key, Iddu!", width / 2, height / 2);
+  } else if (showLoveMessage) {
+    fill(255);
+    textFont(subFont);
+    textSize(promptSize);
+    text("I ❤️ you, Iddu!", width / 2, height / 2);
+  } else {
+    currentScale = lerp(currentScale, targetScale, scaleSpeed);
+    push();
+    translate(width / 2, height / 2);
+    scale(currentScale);
+
+    textFont('Arial');
+    textSize(emojiSize);
+    fill(0);
+    text(currentEmoji, 0, -mainLetterSize * 0.75);
+
+    textFont(mainFont);
+    fill('#FFFFFF');
+    textSize(mainLetterSize);
+    text(currentLetter, 0, -mainLetterSize * 0.1);
+
+    textFont(subFont);
+    fill('#EDBA1F');
+    textSize(wordSize);
+    text(currentWord, 0, mainLetterSize * 0.4);
+    pop();
+  }
+}
+
+function keyPressed() {
+  if (key.length === 1 && key.match(/[a-z]/i)) {
+    showRandomLetter(key.toUpperCase());
+  } else {
+    showPrompt = false;
+    showLoveMessage = true;
+    currentScale = 0;
+  }
+  return false;
+}
+
+function mousePressed() {
+  // Pick a random letter from A-Z on tap/click
+  const letters = Object.keys(letterData);
+  const randomLetter = random(letters);
+  showRandomLetter(randomLetter);
+}
+
+function showRandomLetter(letter) {
+  let data = letterData[letter];
+  if (data) {
+    let i = floor(random(data.words.length));
+    currentLetter = letter;
+    currentWord = data.words[i];
+    currentEmoji = data.emojis[i];
+    showPrompt = false;
+    showLoveMessage = false;
+    currentScale = 0;
+    targetScale = 1;
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+</script>
+</body>
+</html>

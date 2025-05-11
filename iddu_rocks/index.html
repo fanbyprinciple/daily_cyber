@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Emoji Alphabet - Iddu</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Bubblegum+Sans&display=swap" rel="stylesheet">
   <style>
     html, body {
@@ -20,6 +22,11 @@
 </head>
 <body>
 <script>
+let keySound;
+
+function preload() {
+  keySound = loadSound('./wood_plank_flicks.ogg');
+}
 let currentLetter = '';
 let currentWord = '';
 let currentEmoji = '';
@@ -34,7 +41,7 @@ let mainFont = 'Fredoka One';
 let subFont = 'Bubblegum Sans';
 
 const letterData = {
-  'A': { words: ['Apple', 'Ant', 'Airplane'], emojis: ['🍎', '🐜', '✈️'] },
+  'A': { words: ['Apple', 'Ant', 'Airplane', 'Ayana'], emojis: ['🍎', '🐜', '✈️', '🐒'] },
   'B': { words: ['Ball', 'Banana', 'Bear'], emojis: ['⚽', '🍌', '🐻'] },
   'C': { words: ['Cat', 'Car', 'Cake'], emojis: ['🐱', '🚗', '🎂'] },
   'D': { words: ['Dog', 'Duck', 'Dinosaur'], emojis: ['🐶', '🦆', '🦖'] },
@@ -95,12 +102,12 @@ function draw() {
     textFont('Arial');
     textSize(emojiSize);
     fill(0);
-    text(currentEmoji, 0, -mainLetterSize * 0.75);
+    text(currentEmoji, 100, -mainLetterSize * 0.1);
 
     textFont(mainFont);
     fill('#FFFFFF');
     textSize(mainLetterSize);
-    text(currentLetter, 0, -mainLetterSize * 0.1);
+    text(currentLetter, -80, -mainLetterSize * 0.1);
 
     textFont(subFont);
     fill('#EDBA1F');
@@ -111,6 +118,10 @@ function draw() {
 }
 
 function keyPressed() {
+  
+  if (keySound && keySound.isLoaded()) {
+    keySound.play();
+  }
   if (key.length === 1 && key.match(/[a-z]/i)) {
     showRandomLetter(key.toUpperCase());
   } else {
@@ -122,7 +133,10 @@ function keyPressed() {
 }
 
 function mousePressed() {
-  // Pick a random letter from A-Z on tap/click
+
+  if (keySound && keySound.isLoaded()) {
+    keySound.play();
+  }
   const letters = Object.keys(letterData);
   const randomLetter = random(letters);
   showRandomLetter(randomLetter);

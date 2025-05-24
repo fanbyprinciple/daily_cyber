@@ -107,3 +107,13 @@ Working on excel
 # 13 Apr
 
 Working on increp analyser authentication
+
+
+# 24 May 25
+
+Can I make an app which gets movie from telegram
+
+Can I make a document comparison app and make it a saas
+
+gave mtech exams today.
+

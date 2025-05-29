@@ -117,3 +117,17 @@ Can I make a document comparison app and make it a saas
 
 gave mtech exams today.
 
+# 25 May 25
+
+Gave mtech exam
+
+Worked on excel macro. Can we create an excle interface with python?
+
+# 26 May 25
+
+# 27 May 25
+
+# 28 May 25
+
+struggling with windsurf.
+

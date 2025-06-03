@@ -131,3 +131,8 @@ Worked on excel macro. Can we create an excle interface with python?
 
 struggling with windsurf.
 
+# 03 Jun 25
+
+Learning VBA macros
+Installing moodle
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delhi Taxi Driver Number Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a cleaner look */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border border-blue-200">
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-6">
+            Generate Delhi Taxi Plate Number
+        </h1>
+
+        <p class="text-gray-600 mb-8 text-lg">
+            Click the button below to get a randomly generated hypothetical taxi plate number for Delhi.
+        </p>
+
+        <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg mb-8 shadow-inner">
+            <p class="text-sm font-medium text-blue-700 mb-2">Your Generated Number:</p>
+            <div id="driverNumberDisplay" class="text-4xl font-bold text-blue-800 tracking-wide break-all">
+                DL 01 C AB 1234
+            </div>
+        </div>
+
+        <button id="generateButton"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300">
+            Generate Number
+        </button>
+
+        <p class="text-xs text-gray-500 mt-6">
+            Disclaimer: This is a randomly generated hypothetical number for demonstration purposes only and does not represent actual RTO-issued vehicle registration numbers.
+        </p>
+    </div>
+
+    <script>
+        // Get references to the display element and the button
+        const driverNumberDisplay = document.getElementById('driverNumberDisplay');
+        const generateButton = document.getElementById('generateButton');
+
+        /**
+         * Generates a random string of uppercase letters.
+         * @param {number} length - The desired length of the string.
+         * @returns {string} A random string of uppercase letters.
+         */
+        function generateRandomLetters(length) {
+            let result = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        /**
+         * Generates a random string of digits.
+         * @param {number} length - The desired length of the string.
+         * @returns {string} A random string of digits, padded with leading zeros if necessary.
+         */
+        function generateRandomDigits(length) {
+            // Calculate min and max values for the given length to ensure correct padding
+            const min = Math.pow(10, length - 1);
+            const max = Math.pow(10, length) - 1;
+            // Generate a random number within the range
+            const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            // Pad with leading zeros if the random number is shorter than 'length'
+            return String(randomNumber).padStart(length, '0');
+        }
+
+        /**
+         * Generates a hypothetical Delhi Taxi Plate Number.
+         * Format: DL [RTO Code] C [Unique ID]
+         * Where:
+         * - DL: State code for Delhi
+         * - RTO Code: Two-digit number indicating the specific regional transport office (01-13)
+         * - C: Indicates a commercial passenger vehicle (cab)
+         * - Unique ID: Two letters followed by four digits
+         * @returns {string} The generated taxi plate number.
+         */
+        function generateTaxiPlateNumber() {
+            const stateCode = 'DL';
+            // Generate a random two-digit RTO code between 01 and 13
+            const rtoCodeNum = Math.floor(Math.random() * 13) + 1; // Random number from 1 to 13
+            const rtoCode = String(rtoCodeNum).padStart(2, '0'); // Pad with leading zero if single digit
+
+            const commercialIndicator = 'C';
+            const uniqueLetters = generateRandomLetters(2); // Two random uppercase letters
+            const uniqueDigits = generateRandomDigits(4); // Four random digits
+
+            return `${stateCode} ${rtoCode} ${commercialIndicator} ${uniqueLetters} ${uniqueDigits}`;
+        }
+
+        // Event listener for the button click
+        generateButton.addEventListener('click', () => {
+            const newNumber = generateTaxiPlateNumber();
+            driverNumberDisplay.textContent = newNumber;
+        });
+
+        // Initial generation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            driverNumberDisplay.textContent = generateTaxiPlateNumber();
+        });
+    </script>
+</body>
+</html>

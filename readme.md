@@ -136,3 +136,54 @@ struggling with windsurf.
 Learning VBA macros
 Installing moodle
 
+# 05 Jun25
+
+interesting things: 
+
+Live API
+
+screen hierarchy
+
+positioning of what is on the screen
+
+AI can be propmpted suggest me the next action
+
+function calling in LLMs
+
+latest AI
+
+tokens system
+
+input output tokens 
+
+tokens prizing
+
+2.5 context
+
+Retrieval Augmented Generation
+
+Direct product idea
+
+gemma 3n on device idea
+
+TT - we keep things in lot of places, warranty card, vitamin d
+
+random pieces of information, organise the information, view of all this
+
+random things to the person, i should remeber, using AI to the ai, we are attaching 
+
+semantic analysis thoughtful tag, metadata, universal rag, personal well being, 
+
+auto organise the data. 
+
+a rag
+
+Manus ai - describe the problem statements
+
+AI architecture RAG.
+
+most efficient way to store in firestore.
+
+should we store in local data
+
+

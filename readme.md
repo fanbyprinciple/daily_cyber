@@ -140,14 +140,6 @@ Installing moodle
 
 interesting things: 
 
-Live API
-
-screen hierarchy
-
-positioning of what is on the screen
-
-AI can be propmpted suggest me the next action
-
 function calling in LLMs
 
 latest AI
@@ -166,7 +158,7 @@ Direct product idea
 
 gemma 3n on device idea
 
-TT - we keep things in lot of places, warranty card, vitamin d
+## TT - we keep things in lot of places, warranty card, vitamin d
 
 random pieces of information, organise the information, view of all this
 
@@ -186,4 +178,32 @@ most efficient way to store in firestore.
 
 should we store in local data
 
+## function calling, when you ask a query, function available to a ai model such that the AI itself can decide AI
 
+gemmma 3n supports function
+
+function calling device
+
+universal AI - web AI apis alsp
+
+Live API
+
+screen hierarchy
+
+positioning of what is on the screen
+
+AI can be propmpted suggest me the next action
+
+prompt engineering
+
+bidirectional api google firebase chat
+
+function calling
+
+mcp
+
+common firestore addition
+
+gemma 3 n
+
+## 07 may trying to do some more andoroid

@@ -207,3 +207,8 @@ common firestore addition
 gemma 3 n
 
 ## 07 may trying to do some more andoroid
+
+## 08 09
+
+Working with AI agents
+

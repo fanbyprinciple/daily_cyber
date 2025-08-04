@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printer Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: #6c757d;
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .add-printer-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-printer-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .printers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 30px;
+        }
+
+        .printer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .printer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .printer-card.not-working {
+            border-left-color: #dc3545;
+        }
+
+        .printer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .printer-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .printer-model {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-working {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-not-working {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .printer-info {
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .info-value {
+            color: #6c757d;
+        }
+
+        .location-tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .ink-levels {
+            margin: 15px 0;
+        }
+
+        .ink-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .ink-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .ink-progress {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .ink-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .ink-percentage {
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 35px;
+        }
+
+        .remarks {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: italic;
+            color: #6c757d;
+            border-left: 3px solid #667eea;
+        }
+
+        .printer-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .close {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn-submit {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-controls {
+                justify-content: center;
+            }
+
+            .printers-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖨️ Printer Management System</h1>
+            <p>Monitor and manage all your printers from one central location</p>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search printers...">
+            </div>
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="working">Working</button>
+                <button class="filter-btn" data-filter="not-working">Not Working</button>
+            </div>
+            <button class="add-printer-btn" onclick="openModal()">+ Add Printer</button>
+        </div>
+
+        <div class="printers-grid" id="printersGrid">
+            <!-- Printer cards will be generated here -->
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing printers -->
+    <div id="printerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add New Printer</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="printerForm">
+                <div class="form-group">
+                    <label class="form-label">Printer Name</label>
+                    <input type="text" class="form-control" id="printerName" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Model</label>
+                        <input type="text" class="form-control" id="printerModel" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" id="printerStatus" required>
+                            <option value="working">Working</option>
+                            <option value="not-working">Not Working</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-control" id="printerLocation" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Black Ink (%)</label>
+                        <input type="number" class="form-control" id="blackInk" min="0" max="100" value="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cyan Ink (%)</label>
+                        <input type="number" class="form-control" id="cyanInk" min="0" max="100" value="100">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Magenta Ink (%)</label>
+                        <input type="number" class="form-control" id="magentaInk" min="0" max="100" value="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Yellow Ink (%)</label>
+                        <input type="number" class="form-control" id="yellowInk" min="0" max="100" value="100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Remarks</label>
+                    <textarea class="form-control" id="printerRemarks" rows="3" placeholder="Any additional notes or remarks..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Save Printer</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let printers = [
+            {
+                id: 1,
+                name: "HP LaserJet Pro",
+                model: "HP M404n",
+                status: "working",
+                location: "Reception Desk",
+                ink: { black: 85, cyan: 92, magenta: 76, yellow: 88 },
+                remarks: "Recently serviced, working perfectly"
+            },
+            {
+                id: 2,
+                name: "Canon PIXMA",
+                model: "Canon G3010",
+                status: "not-working",
+                location: "Accounting Department",
+                ink: { black: 15, cyan: 25, magenta: 8, yellow: 32 },
+                remarks: "Paper jam issue, needs immediate attention"
+            },
+            {
+                id: 3,
+                name: "Epson EcoTank",
+                model: "Epson L3210",
+                status: "working",
+                location: "HR Office",
+                ink: { black: 45, cyan: 67, magenta: 54, yellow: 71 },
+                remarks: "Good condition, regular maintenance scheduled"
+            }
+        ];
+
+        let currentFilter = 'all';
+        let editingPrinterId = null;
+
+        function renderPrinters() {
+            const grid = document.getElementById('printersGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filteredPrinters = printers.filter(printer => {
+                const matchesSearch = printer.name.toLowerCase().includes(searchTerm) ||
+                                    printer.location.toLowerCase().includes(searchTerm) ||
+                                    printer.model.toLowerCase().includes(searchTerm);
+                
+                const matchesFilter = currentFilter === 'all' || printer.status === currentFilter;
+                
+                return matchesSearch && matchesFilter;
+            });
+
+            grid.innerHTML = filteredPrinters.map(printer => `
+                <div class="printer-card ${printer.status === 'not-working' ? 'not-working' : ''}">
+                    <div class="printer-header">
+                        <div>
+                            <div class="printer-name">${printer.name}</div>
+                            <div class="printer-model">${printer.model}</div>
+                        </div>
+                        <div class="status-badge status-${printer.status}">
+                            ${printer.status === 'working' ? '✅ Working' : '❌ Not Working'}
+                        </div>
+                    </div>
+
+                    <div class="printer-info">
+                        <div class="info-row">
+                            <span class="info-label">📍 Location:</span>
+                            <span class="location-tag">${printer.location}</span>
+                        </div>
+                    </div>
+
+                    <div class="ink-levels">
+                        <div class="ink-bar">
+                            <div class="ink-color" style="background: #000"></div>
+                            <div class="ink-progress">
+                                <div class="ink-fill" style="width: ${printer.ink.black}%; background: #000"></div>
+                            </div>
+                            <span class="ink-percentage">${printer.ink.black}%</span>
+                        </div>
+                        <div class="ink-bar">
+                            <div class="ink-color" style="background: #00ffff"></div>
+                            <div class="ink-progress">
+                                <div class="ink-fill" style="width: ${printer.ink.cyan}%; background: #00ffff"></div>
+                            </div>
+                            <span class="ink-percentage">${printer.ink.cyan}%</span>
+                        </div>
+                        <div class="ink-bar">
+                            <div class="ink-color" style="background: #ff00ff"></div>
+                            <div class="ink-progress">
+                                <div class="ink-fill" style="width: ${printer.ink.magenta}%; background: #ff00ff"></div>
+                            </div>
+                            <span class="ink-percentage">${printer.ink.magenta}%</span>
+                        </div>
+                        <div class="ink-bar">
+                            <div class="ink-color" style="background: #ffff00"></div>
+                            <div class="ink-progress">
+                                <div class="ink-fill" style="width: ${printer.ink.yellow}%; background: #ffff00"></div>
+                            </div>
+                            <span class="ink-percentage">${printer.ink.yellow}%</span>
+                        </div>
+                    </div>
+
+                    ${printer.remarks ? `<div class="remarks">💬 ${printer.remarks}</div>` : ''}
+
+                    <div class="printer-actions">
+                        <button class="action-btn edit-btn" onclick="editPrinter(${printer.id})">✏️ Edit</button>
+                        <button class="action-btn delete-btn" onclick="deletePrinter(${printer.id})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(printerId = null) {
+            const modal = document.getElementById('printerModal');
+            const title = document.getElementById('modalTitle');
+            const form = document.getElementById('printerForm');
+            
+            if (printerId) {
+                const printer = printers.find(p => p.id === printerId);
+                title.textContent = 'Edit Printer';
+                editingPrinterId = printerId;
+                
+                // Fill form with printer data
+                document.getElementById('printerName').value = printer.name;
+                document.getElementById('printerModel').value = printer.model;
+                document.getElementById('printerStatus').value = printer.status;
+                document.getElementById('printerLocation').value = printer.location;
+                document.getElementById('blackInk').value = printer.ink.black;
+                document.getElementById('cyanInk').value = printer.ink.cyan;
+                document.getElementById('magentaInk').value = printer.ink.magenta;
+                document.getElementById('yellowInk').value = printer.ink.yellow;
+                document.getElementById('printerRemarks').value = printer.remarks || '';
+            } else {
+                title.textContent = 'Add New Printer';
+                editingPrinterId = null;
+                form.reset();
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('printerModal');
+            modal.style.display = 'none';
+            editingPrinterId = null;
+        }
+
+        function editPrinter(id) {
+            openModal(id);
+        }
+
+        function deletePrinter(id) {
+            if (confirm('Are you sure you want to delete this printer?')) {
+                printers = printers.filter(p => p.id !== id);
+                renderPrinters();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', renderPrinters);
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderPrinters();
+            });
+        });
+
+        document.getElementById('printerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('printerName').value,
+                model: document.getElementById('printerModel').value,
+                status: document.getElementById('printerStatus').value,
+                location: document.getElementById('printerLocation').value,
+                ink: {
+                    black: parseInt(document.getElementById('blackInk').value),
+                    cyan: parseInt(document.getElementById('cyanInk').value),
+                    magenta: parseInt(document.getElementById('magentaInk').value),
+                    yellow: parseInt(document.getElementById('yellowInk').value)
+                },
+                remarks: document.getElementById('printerRemarks').value
+            };
+            
+            if (editingPrinterId) {
+                // Edit existing printer
+                const index = printers.findIndex(p => p.id === editingPrinterId);
+                printers[index] = { ...printers[index], ...formData };
+            } else {
+                // Add new printer
+                const newId = Math.max(...printers.map(p => p.id)) + 1;
+                printers.push({ id: newId, ...formData });
+            }
+            
+            closeModal();
+            renderPrinters();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('printerModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initial render
+        renderPrinters();
+    </script>
+</body>
+</html>

@@ -212,3 +212,6 @@ gemma 3 n
 
 Working with AI agents
 
+## 06 Aug
+
+Broke a rut

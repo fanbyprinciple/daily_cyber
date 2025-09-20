@@ -87,5 +87,94 @@ Person, Virus, Natural disaster
 Impact
 outcome f a threat acting it can be immediate or residual
 
+probability 
+liklihood of risk to mature
 
+## assesing risk
+
+qualitative an dquantiitative
+subjective   meium high low vs
+
+in dept assement in terms of monetary and man hour
+
+Annual loss expectency vs cost of protection
+
+### security policies and standards
+
+Policy dictates what must be done, whereas standard states how it gets done
+
+policy address the behaviour for IT interaction
+standard focus on configurationa nd implementation
+
+Security policy development
+
+regulatory standard, industry certification, industy certification
+
+Information security policy
+acceptable se policy
+technology uise policy
+remote access policy
+data classification policy
+data handliong policy
+data retention policy
+data destrcution policy
+
+Enterprise security standards
+wireless security
+enterprise monitoring standard
+enterprise encryption standard
+system hardenin gstandard
+
+## Defence in depth
+
+each tier security
+
+firewall, intrusion etection, network segmentation, 
+
+## next generation firewall
+in dept analysis of the packet
+
+standard firewall only checsk IP
+
+## IDS IPS
+any deviation from baselube, anomaly analysis
+singature based analysis
+
+# Contact session 4
+
+## DNS security
+
+DNSSecurity extensions
+DNS zne transfer
+
+restricting DNS access
+
+DNS poisoning
+
+Internet engineerin tak force security extensio
+
+## email
+
+spam filtering
+spam filtering DNS mail record specifeis the mail server respnsible for accepting email messages on behalf of a domain name
+
+## fiel trasfer
+ssftp, SFTP
+
+# user athenitcationpki or using domin infrasturctue
+
+# ips and web applocation firewall
+# network segmentation
+
+## sytem management
+Firle integrity monitoring FIM
+UAC
+
+# Contac tsession 5
+
+## data classificaion
+Data identification
+Data classificaiton
+
+## data loss prevetion
 

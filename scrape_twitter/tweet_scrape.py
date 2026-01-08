@@ -2,9 +2,6 @@ import snscrape.modules.twitter as sntwitter
 
 keywords = [
     "mahseer",
-    "golden mahseer",
-    "Tor putitora",
-    "Tor tor",
     "mahseer fish",
     "Indian mahseer"
 ]

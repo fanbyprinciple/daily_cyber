@@ -1,17 +1,30 @@
 import nmap
 import google.generativeai as genai
-import os
+from fpdf import FPDF
+from datetime import datetime
 
-# 1. Setup your API Key
+# --- CONFIGURATION ---
 # Get a key from: https://aistudio.google.com/
 API_KEY = "YOUR_GEMINI_API_KEY"
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
+class SecurityReport(FPDF):
+    def header(self):
+        self.set_font("Arial", "B", 15)
+        self.cell(0, 10, "AI-Generated Security Audit Report", ln=True, align="C")
+        self.set_font("Arial", "I", 10)
+        self.cell(0, 10, f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M')}", ln=True, align="C")
+        self.ln(10)
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font("Arial", "I", 8)
+        self.cell(0, 10, f"Page {self.page_no()}", align="C")
+
 def run_nmap_audit(target):
     nm = nmap.PortScanner()
-    print(f"[*] Scanning {target}... this may take a minute.")
-    # -sV for version detection
+    print(f"[*] Scanning {target}...")
     nm.scan(target, arguments='-sV -T4')
     
     scan_summary = ""
@@ -25,36 +38,42 @@ def run_nmap_audit(target):
 
 def analyze_with_llm(scan_data):
     prompt = f"""
-    You are a professional Cyber Security Auditor. 
-    I have performed an Nmap scan on a test environment. 
-    Please analyze the following scan results:
-    
+    Act as a Senior Cybersecurity Consultant. Analyze these Nmap results:
     {scan_data}
     
-    Provide a report with:
-    1. Criticality assessment (Low/Medium/High).
-    2. Potential vulnerabilities associated with these specific service versions.
-    3. Clear, step-by-step remediation advice for securing these services.
-    4. Mention any ports that should absolutely not be exposed to the public internet.
+    Format the report with these exact headings:
+    1. EXECUTIVE SUMMARY
+    2. KEY VULNERABILITIES
+    3. REMEDIATION PLAN
+    4. CRITICALITY SCORE (1-10)
     
-    Be concise and professional.
+    Be specific about version-related CVEs. Keep it professional.
     """
-    
-    print("[*] Sending data to LLM for analysis...")
+    print("[*] Analyzing with AI...")
     response = model.generate_content(prompt)
     return response.text
 
+def create_pdf(report_text, filename="Security_Audit.pdf"):
+    pdf = SecurityReport()
+    pdf.add_page()
+    pdf.set_font("Arial", size=11)
+    
+    # Cleaning text for PDF (removing common illegal characters)
+    clean_text = report_text.encode('latin-1', 'replace').decode('latin-1')
+    
+    # Multi-cell handles text wrapping automatically
+    pdf.multi_cell(0, 10, clean_text)
+    
+    pdf.output(filename)
+    print(f"[+] Report saved as: {filename}")
+
 if __name__ == "__main__":
-    # WARNING: Only scan targets you own (e.g., your local router or lab VM)
-    target = "127.0.0.1" 
+    target_ip = "127.0.0.1" # Change to your target
     
-    raw_results = run_nmap_audit(target)
+    raw_data = run_nmap_audit(target_ip)
     
-    if raw_results.strip():
-        report = analyze_with_llm(raw_results)
-        print("\n" + "="*50)
-        print("AI SECURITY AUDIT REPORT")
-        print("="*50)
-        print(report)
+    if raw_data.strip():
+        ai_report = analyze_with_llm(raw_data)
+        create_pdf(ai_report)
     else:
-        print("[!] No scan data found. Check if the target is up.")
+        print("[!] No results. Host might be down.")
